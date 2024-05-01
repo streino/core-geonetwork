@@ -286,6 +286,7 @@
 
 
   <fieldsWithFieldset>
+    <name>gmd:MD_LegalConstraints</name>
     <name>gmd:MD_Metadata</name>
     <name>gmd:identificationInfo</name>
     <name>gmd:distributionInfo</name>
@@ -3265,6 +3266,258 @@
       </thesaurusList>
 
     </view>
+
+    <view name="custom-view">
+      <sidePanel>
+        <!-- General online source manager
+        <directive data-gn-onlinesrc-list=""/>
+        -->
+
+        <!-- Simple overview manager + online source manger for other types
+        Limit the max number of overviews with data-number-of-overviews="3" attribute.
+        In the full view, editor can access and manage the file store and
+        thumbnail name and description not supported by the overview manager.
+        -->
+        <directive data-gn-validation-report=""/>
+        <directive data-gn-overview-manager=""/>
+        <directive data-gn-onlinesrc-list=""
+                   data-types="onlinesrc|parent|dataset|service|source|sibling|associated|fcats"/>
+
+        <directive gn-geo-publisher=""
+                   data-ng-if="gnCurrentEdit.geoPublisherConfig"
+                   data-config="{{gnCurrentEdit.geoPublisherConfig}}"
+                   data-lang="lang"/>
+
+        <directive data-gn-suggestion-list=""/>
+        <directive data-gn-need-help="user-guide/describing-information/creating-metadata.html"/>
+      </sidePanel>
+
+      <tab id="custom-tab" default="true"> <!-- mode="flat"> -->
+        <!-- <section xpath="/gmd:MD_Metadata/gmd:identificationInfo"/> -->
+        
+        <section name="identificationInfo">
+          <field xpath="/gmd:MD_Metadata/gmd:fileIdentifier"/>
+          <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:title"/>
+          <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:abstract"
+                 if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
+          <field xpath="/gmd:MD_Metadata/gmd:hierarchyLevel"/>
+        </section>
+        
+        <section name="restrictionsSection"
+                 displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
+
+          <!-- <field name="useLimitation" -->
+          <!--        xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/ -->
+          <!--               gmd:resourceConstraints/gmd:MD_Constraints/gmd:useLimitation" -->
+          <!--        if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/> -->
+          <!-- <action type="add" name="useLimitation" or="resourceConstraints" btnLabel="useLimitation" -->
+          <!--         in="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification" -->
+          <!--         if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"> -->
+          <!--   <template> -->
+          <!--     <snippet> -->
+          <!--       <gmd:resourceConstraints> -->
+          <!--         <gmd:MD_Constraints> -->
+          <!--           <gmd:useLimitation> -->
+          <!--             <gco:CharacterString/> -->
+          <!--           </gmd:useLimitation> -->
+          <!--         </gmd:MD_Constraints> -->
+          <!--       </gmd:resourceConstraints> -->
+          <!--     </snippet> -->
+          <!--   </template> -->
+          <!-- </action> -->
+
+          <section name="accessConstraints">
+            <field name="access"
+                   xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/
+                          gmd:resourceConstraints/gmd:MD_LegalConstraints[./gmd:accessConstraints]"
+                   displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"
+                   del=".." mode="flat">
+              <template>
+                <values>
+                  <key label="code" xpath="gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue"/>
+                  <key label="other" xpath="gmd:otherConstraints/gco:CharacterString"/>
+                </values>
+                <snippet>
+                  <gmd:MD_LegalConstraints>
+                    <gmd:accessConstraints>
+                      <gmd:MD_RestrictionCode
+                          codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                          codeListValue="{{code}}"/>
+                    </gmd:accessConstraints>
+                    <gmd:otherConstraints>
+                      <gco:CharacterString>{{other}}</gco:CharacterString>
+                    </gmd:otherConstraints>
+                  </gmd:MD_LegalConstraints>
+                </snippet>
+              </template>
+            </field>
+          </section>
+            
+
+
+            
+          <!-- <section name="accessConstraints" -->
+          <!--          displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"> -->
+
+          <!--   <field name="accessConstraints" -->
+          <!--          xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/ -->
+          <!--                 gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:accessConstraints" -->
+          <!--          if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0" -->
+          <!--          del="../.."/> -->
+          <!--   <field name="otherConstraints" -->
+          <!--          xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/ -->
+          <!--                 gmd:resourceConstraints/gmd:MD_LegalConstraints[./gmd:accessConstraints]/gmd:otherConstraints" -->
+          <!--          if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/ -->
+          <!--              gmd:resourceConstraints/gmd:MD_LegalConstraints[./gmd:accessConstraints]/gmd:otherConstraints) > 0"/> -->
+            
+          <!--   <action type="add" name="accessConstraints" btnLabel="accessConstraints" -->
+          <!--           or="resourceConstraints" in="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification" -->
+          <!--           if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"> -->
+          <!--     <template> -->
+          <!--       <snippet> -->
+          <!--         <gmd:resourceConstraints> -->
+          <!--           <gmd:MD_LegalConstraints> -->
+          <!--             <gmd:accessConstraints> -->
+          <!--               <gmd:MD_RestrictionCode -->
+          <!--                   codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode" -->
+          <!--                   codeListValue="otherRestrictions"/> -->
+          <!--             </gmd:accessConstraints> -->
+          <!--             <gmd:otherConstraints> -->
+          <!--               <gco:CharacterString/> -->
+          <!--             </gmd:otherConstraints> -->
+          <!--           </gmd:MD_LegalConstraints> -->
+          <!--         </gmd:resourceConstraints> -->
+          <!--       </snippet> -->
+          <!--     </template> -->
+          <!--   </action> -->
+          <!-- </section> -->
+
+          <!-- <field name="useConstraints" -->
+          <!--        xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/ -->
+          <!--               gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:useConstraints" -->
+          <!--        if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0" -->
+          <!--        del="../.."/> -->
+          <!-- <action type="add" name="useConstraints" btnLabel="useConstraints" -->
+          <!--         or="resourceConstraints" in="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification" -->
+          <!--         if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"> -->
+          <!--   <template> -->
+          <!--     <snippet> -->
+          <!--       <gmd:resourceConstraints> -->
+          <!--         <gmd:MD_LegalConstraints> -->
+          <!--           <gmd:useConstraints> -->
+          <!--             <gmd:MD_RestrictionCode -->
+          <!--                 codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode" -->
+          <!--                 codeListValue="otherRestrictions"/> -->
+          <!--           </gmd:useConstraints> -->
+          <!--           <gmd:otherConstraints gco:nilReason="missing"> -->
+          <!--             <gco:CharacterString/> -->
+          <!--           </gmd:otherConstraints> -->
+          <!--         </gmd:MD_LegalConstraints> -->
+          <!--       </gmd:resourceConstraints> -->
+          <!--     </snippet> -->
+          <!--   </template> -->
+          <!-- </action> -->
+
+          <!-- <!-\- Access constraints for metadata about data. -->
+          <!--      Services have their own format, defined in the SDS tab -\-> -->
+          <!-- <field name="accessConstraints" -->
+          <!--        xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/ -->
+          <!--   gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints" -->
+          <!--        if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/> -->
+
+          <!-- <action type="add" name="accessConstraints" or="resourceConstraints"  btnLabel="accessConstraints" -->
+          <!--         in="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification" -->
+          <!--         if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"> -->
+          <!--   <template> -->
+          <!--     <snippet> -->
+          <!--       <gmd:resourceConstraints> -->
+          <!--         <gmd:MD_LegalConstraints> -->
+          <!--           <gmd:accessConstraints> -->
+          <!--             <gmd:MD_RestrictionCode -->
+          <!--               codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode" -->
+          <!--               codeListValue="otherRestrictions"/> -->
+          <!--           </gmd:accessConstraints> -->
+          <!--           <!-\- <gmd:useConstraints/> -\-> -->
+          <!--           <gmd:otherConstraints gco:nilReason="missing"> -->
+          <!--             <gco:CharacterString/> -->
+          <!--           </gmd:otherConstraints> -->
+          <!--         </gmd:MD_LegalConstraints> -->
+          <!--       </gmd:resourceConstraints> -->
+          <!--     </snippet> -->
+          <!--   </template> -->
+          <!-- </action> -->
+
+        </section>
+        
+        <!-- <section xpath="/gmd:MD_Metadata/gmd:referenceSystemInfo"/> -->
+        <!-- <section xpath="/gmd:MD_Metadata/gmd:spatialRepresentationInfo"/> -->
+        <!-- <section xpath="/gmd:MD_Metadata/gmd:distributionInfo"/> -->
+        <!-- <section xpath="/gmd:MD_Metadata/gmd:dataQualityInfo"/> -->
+        <!-- <section xpath="/gmd:MD_Metadata/gmd:contentInfo"/> -->
+        <!-- <section> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:fileIdentifier"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:language" or="language" in="/gmd:MD_Metadata"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:characterSet"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:parentIdentifier" or="parentIdentifier" -->
+        <!--          in="/gmd:MD_Metadata"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:hierarchyLevel" or="hierarchyLevel" -->
+        <!--          in="/gmd:MD_Metadata"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:hierarchyLevelName" or="hierarchyLevelName" -->
+        <!--          in="/gmd:MD_Metadata"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:dateStamp"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:metadataStandardName"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:metadataStandardVersion"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:contact" or="contact" in="/gmd:MD_Metadata"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:dataSetURI" or="dataSetURI" in="/gmd:MD_Metadata"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:locale" or="locale" in="/gmd:MD_Metadata"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:series"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:describes"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:propertyType"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:featureType"/> -->
+        <!--   <field xpath="/gmd:MD_Metadata/gmd:featureAttribute"/> -->
+        <!-- </section> -->
+      </tab>
+
+      <!-- Elements that should not use the "flat" mode -->
+      <!-- Use excludeFrom attribute to don't apply flat mode exception if the element parent is in that list. For example:
+            <for name="gmd:contact" excludeFrom="gmd:MD_MaintenanceInformation"/>
+
+            Applies flat mode exceptions for all gmd:contact, except for the ones in gmd:MD_MaintenanceInformation.
+      -->
+      <flatModeExceptions>
+        <for name="gmd:descriptiveKeywords"/>
+        <for name="gmd:keyword"/>
+        <for name="gmd:spatialResolution"/>
+        <for name="gmd:pointOfContact"/>
+        <for name="gmd:distributor"/>
+        <for name="gmd:distributionFormat"/>
+        <for name="gmd:contact"/>
+        <for name="gmd:processor"/>
+        <for name="gmd:topicCategory"/>
+        <for name="srv:parameters"/>
+      </flatModeExceptions>
+      
+      <!--
+      To configure the type of transformations
+      or the number of keyword allowed for e
+      thesaurus define a specific configuration:
+
+      eg. only 2 INSPIRE themes with Anchor.
+
+      <thesaurusList>
+        <thesaurus key="external.theme.httpinspireeceuropaeutheme-theme"
+                   maxtags="2"
+                   fieldset="false"
+                   transformations="to-iso19139-keyword-with-anchor"/>
+      </thesaurusList>
+      -->
+
+      <thesaurusList>
+        <thesaurus key="external.none.allThesaurus"
+                   fieldset="false"/>
+      </thesaurusList>
+    </view>
+
     <view name="advanced">
       <sidePanel>
         <directive data-gn-validation-report=""/>

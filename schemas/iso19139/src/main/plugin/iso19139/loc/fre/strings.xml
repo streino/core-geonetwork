@@ -40,6 +40,7 @@
   <linkToPortal-help>Consultez l'intégralité des métadonnées et accédez à la donnée.</linkToPortal-help>
 
 
+  <custom-view>Custom</custom-view>
   <advanced>Complète</advanced>
   <default>Simple</default>
   <simple>Simple</simple>
@@ -112,8 +113,9 @@
   <lineage>Généalogie</lineage>
   <spatialResolution>Résolution spatiale (échelle)</spatialResolution>
   <spatialDistance>Résolution spatiale (distance)</spatialDistance>
-  <accessConstraints>Limitations d'accès public</accessConstraints>
-  <useLimitation>Conditions applicables à l'accès et à l'utilisation</useLimitation>
+  <!-- <accessConstraints>Limitations d'accès public</accessConstraints> -->
+  <!-- <useConstraints>Limitations d'utilisation publique</useConstraints> -->
+  <!-- <useLimitation>Conditions applicables à l'accès et à l'utilisation</useLimitation> -->
 
   <add-resource-id>Générer un identifiant</add-resource-id>
   <add-resource-idHelp>Construit un identifiant en utilisant le préfixe défini dans les paramètres
@@ -127,7 +129,7 @@
   </add-extent-from-geokeywordsHelp>
   <classificationSection>Classification of data and services</classificationSection>
   <temporalSection>Temporal reference</temporalSection>
-  <restrictionsSection>Restrictions on access and use</restrictionsSection>
+  <restrictionsSection>Restrictions d'accès et d'utilisation</restrictionsSection>
   <metadataSection>Metadata information</metadataSection>
   <responsibleOrganisationSection>Responsible organization (s)</responsibleOrganisationSection>
   <qualityAndValiditySection>Quality and validity</qualityAndValiditySection>
