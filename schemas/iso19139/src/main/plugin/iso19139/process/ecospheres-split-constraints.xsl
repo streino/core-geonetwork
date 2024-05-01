@@ -79,7 +79,27 @@ NOTES:
   </xsl:template>
 
   <!--
-      Ne pas éditer ci-dessous
+      GUI integration
+  -->
+
+  <xsl:template name="list-ecospheres-split-constraints">
+    <suggestion process="ecospheres-split-constraints"/>
+  </xsl:template>
+
+  <xsl:template name="analyze-ecospheres-split-constraints">
+    <xsl:param name="root"/>
+    <!-- TODO: conditional trigger -->
+    <suggestion process="ecospheres-split-constraints" id="{generate-id()}">
+      <name xml:lang="en">
+        Apply ecospheres-split-constraints
+      </name>
+      <operational>true</operational>
+      <form/>
+    </suggestion>
+  </xsl:template>
+
+  <!--
+      Geonetwork internals
   -->
   
   <!-- Do a copy of every nodes and attributes -->

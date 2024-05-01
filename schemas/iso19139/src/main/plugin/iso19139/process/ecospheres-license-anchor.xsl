@@ -90,7 +90,27 @@ NOTES:
   </xsl:template>
 
   <!--
-      Ne pas éditer ci-dessous
+      GUI integration
+  -->
+
+  <xsl:template name="list-ecospheres-license-anchor">
+    <suggestion process="ecospheres-license-anchor"/>
+  </xsl:template>
+
+  <xsl:template name="analyze-ecospheres-license-anchor">
+    <xsl:param name="root"/>
+    <!-- TODO: conditional trigger -->
+    <suggestion process="ecospheres-license-anchor" id="{generate-id()}">
+      <name xml:lang="en">
+        Apply ecospheres-license-anchor
+      </name>
+      <operational>true</operational>
+      <form/>
+    </suggestion>
+  </xsl:template>
+
+  <!--
+      Geonetwork internals
   -->
   
   <!-- Do a copy of every nodes and attributes -->

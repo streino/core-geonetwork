@@ -43,6 +43,9 @@
     <xsl:include href="process/inspire-add-dq-toporeport.xsl"/>
     <xsl:include href="process/inspire-themes-and-topiccategory.xsl"/>
   -->
+  <!-- custom Ecospheres -->
+  <xsl:include href="process/ecospheres-license-anchor.xsl"/>
+  <xsl:include href="process/ecospheres-split-constraints.xsl"/>
 
   <xsl:variable name="processes">
     <p>keywords-comma-exploder</p>
@@ -59,6 +62,9 @@
         <p>inspire-add-dq-toporeport</p>
         <p>inspire-themes-and-topiccategory</p>
     -->
+    <!-- custom Ecospheres -->
+    <p>ecospheres-license-anchor</p>
+    <p>ecospheres-split-constraints</p>
   </xsl:variable>
 
   <xsl:param name="action" select="'list'"/>
